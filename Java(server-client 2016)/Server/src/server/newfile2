@@ -1,0 +1,47 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package server;
+
+import java.net.*;
+import java.io.*;
+
+
+public class Server {
+   public static void main(String[] ar)    {
+     int port = 6666; // (от 1025 до 65535)
+       try {
+        ServerSocket ss = new ServerSocket(port); 
+        System.out.println("Ожидаю клиент...");
+        Socket socket = ss.accept(); 
+        System.out.println("Клиент подключен");
+        System.out.println();
+        String path="C://YouServerFolder//";
+        new File(path).mkdir();
+        InputStream sin = socket.getInputStream();
+        OutputStream sout = socket.getOutputStream();
+        //Принимаем имя
+        byte[] Nbuffer = new byte[255];
+        sin.read(Nbuffer);
+        System.err.println("Разберись с  String fileName = new String(Nbuffer,\"UTF-8\").trim(); ");
+        String fileName = new String(Nbuffer,"UTF-8").trim();
+        //Буфферы для файла
+        BufferedInputStream b_is = new BufferedInputStream(socket.getInputStream());
+        BufferedOutputStream b_os=  new BufferedOutputStream(socket.getOutputStream());
+        //Принимаем файл
+        byte[] buffer = new byte[8192];      
+        b_is.read(buffer,0,8192);
+        b_is.close();
+        //Пишем файл+имя
+        FileOutputStream fout = new FileOutputStream(path+fileName);
+        System.out.println("Пишем в новый файл");
+        fout.write(buffer);
+        fout.close();
+        System.out.println("...записали!");
+        //енд
+      
+      } catch(Exception x) { x.printStackTrace(); }
+   }
+}

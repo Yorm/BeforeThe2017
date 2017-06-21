@@ -1,0 +1,360 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package server;
+
+import java.net.*;
+import java.io.*;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
+public class Server implements Runnable{
+    final String path= "C://YouServerFolder//";
+    int port;
+    ServerSocket ss;
+    ConnectedClient newClient;
+    
+   // Socket socket;
+   // int num;
+    
+    public Server(){
+        try
+        {
+            port = 6666;//6989
+            new File(path).mkdir();
+            ss= new ServerSocket(port);
+            newClient = new ConnectedClient();
+            System.out.println("Сервер ис стартед");
+        }
+        catch(Exception e){System.err.println("сервер крашед");}       
+    }
+    /*
+    public Server(int num, Socket socket)
+    {
+        // копируем данные
+        this.num = num;
+        this.socket = socket;
+
+        // и запускаем новый вычислительный поток (см. ф-ю run())
+        setDaemon(true);
+        setPriority(NORM_PRIORITY);
+        start();
+    }
+    */
+    public static void main(String[] arg)    {
+        new Thread(new Server()).start();
+        /*
+        int port = 6666; // (от 1025 до 65535)
+        int i=0;
+        try { 
+            ServerSocket ss = new ServerSocket(port);
+            System.out.println("Ожидаю клиент...");
+            while(true)
+            {
+                // ждём нового подключения, после чего запускаем обработку клиента
+                // в новый вычислительный поток и увеличиваем счётчик на единичку
+                new Server(i,  ss.accept());
+                i++;
+            }
+        } catch(Exception x) { x.printStackTrace(); }    
+        (*/
+    }
+    /*
+    @Override
+    public void run(){      
+        try {          
+            System.out.println("Клиент под номером "+num+" подключен");
+            new File("C://YouServerFolder//").mkdir();
+            InputStream sin = socket.getInputStream();
+            OutputStream sout = socket.getOutputStream();
+            while(true){
+                //Принимаем заголовок
+                byte[] Hbuffer = new byte[4];
+                sin.read(Hbuffer);
+                String header = new String(Hbuffer,"UTF-8").trim();  
+                //Што делать
+                switch(header){
+                    case "recF": sendFile(socket); break;
+                    case "senF": receiveFile(socket); break;
+                    case "onlS": addC(); break;
+                   // default: System.out.println("BE DA");
+                }
+            }
+        } catch(Exception x) { x.printStackTrace(); }
+    }
+    */
+    public void run(){
+        while(true)
+        {
+            try
+            {
+                newClient.newConnection(ss.accept());
+            }
+            catch(Exception e){System.err.println("конекшон проблем");}
+        }
+    }
+    
+    
+    class ConnectedClient{
+        
+        private LinkedList<ServiceClient> users;
+
+        ConnectedClient() {
+            users = new LinkedList<ServiceClient>();
+        }
+            
+        void newConnection(Socket socket){
+            new Thread(new ServiceClient(socket)).start();
+        }
+        
+        class ServiceClient implements Runnable{
+                String userName;
+                Socket socket;
+                InputStream sin;
+                OutputStream sout;
+                
+                ServiceClient(Socket soc){
+                    try
+                    {
+                        socket = soc;
+                        sin = socket.getInputStream();
+                        sout = socket.getOutputStream();
+                    }
+                    catch(Exception e){System.err.println("конекшон проблем фром енд левл");}
+                }
+                
+                public void run(){
+                    while(true)
+                    {
+                        try
+                        {
+                           //Принимаем заголовок
+                            byte[] Hbuffer = new byte[4];
+                            sin.read(Hbuffer);
+                            String header = new String(Hbuffer,"UTF-8").trim();  
+                            //Што делать
+                            switch(header){
+                                case "recF": sendFile(socket); break;
+                                case "senF": receiveFile(socket); break;
+                               //  case "onlS": addC(); break;
+                               //  default: System.out.println("BE DA");
+                            } 
+                        }
+                        catch(Exception e){System.out.println("ран проблем");}
+                    }
+                }
+                
+                void receiveFile (Socket socket){    
+        
+                    /* try //отправляем заголовок нашего сообщения
+                     {
+                         OutputStream sout = socket.getOutputStream();            
+                         byte[] Hbuffer=new byte[4];
+                         Hbuffer="recF".getBytes();
+                         sout.write(Hbuffer);         
+                     }
+                     catch (Exception x) { System.err.println("run"); x.printStackTrace();}
+                     */
+                    try 
+                    {
+                        InputStream sin = socket.getInputStream(); 
+                        //Принимаем имя
+                        byte[] Nbuffer = new byte[255];
+                        sin.read(Nbuffer);
+                        String fileName = new String(Nbuffer,"UTF-8").trim();
+                        System.out.println("Имя приняли:"+fileName);
+                        //Буферы для файла
+                        byte[] buffer = new byte[65536];
+                        FileOutputStream f_out = new FileOutputStream("C://YouServerFolder//"+fileName);
+                        BufferedInputStream b_is = new BufferedInputStream(socket.getInputStream());              
+                        //Принимаем размер
+                        long sf;    
+                        DataInputStream d_is = new DataInputStream(socket.getInputStream());
+                        sf=d_is.readLong();
+                        System.out.println("Размер получен:"+sf);
+                        //Принимаем файл
+                        while (sf > 0) {
+                            int i = b_is.read(buffer);
+                            f_out.write(buffer, 0, i);
+                            sf-= i;
+                        }
+                        System.out.println("!");
+                        //end
+                    } catch(Exception x) { x.printStackTrace(); }
+                }
+                
+                void sendFile (Socket socket) throws IOException{
+
+                    /* try //отправляем заголовок нашего сообщения
+                     {
+                         OutputStream sout = socket.getOutputStream();            
+                         byte[] Hbuffer=new byte[4];
+                         Hbuffer="senF".getBytes();
+                         sout.write(Hbuffer);         
+                     }
+                     catch (Exception x) { System.err.println("run"); x.printStackTrace();}
+                     */
+                    try
+                    {   
+                        OutputStream sout = socket.getOutputStream();
+                        String line;
+                        line="note.txt";
+                        byte[] Nbuffer=new byte[line.length()];
+                        Nbuffer=line.getBytes();
+                        sout.write(Nbuffer);       
+                        System.out.println("Имя отправлено");   
+                    }
+                    catch (Exception x) {System.err.println("fileName"); x.printStackTrace();}
+
+                    try 
+                    {
+                        byte[] buffer = new byte[65536];//8192 64
+                        File f = new File("C://YouServerFolder//note.txt");      
+                        FileInputStream f_is = new FileInputStream(f);
+                        BufferedOutputStream b_os = new BufferedOutputStream(socket.getOutputStream());                
+                        long sf=f.length();
+                        //Отправляю размер
+                        try 
+                        {  
+                            DataOutputStream d_os= new DataOutputStream(socket.getOutputStream());
+                            d_os.writeLong(sf);
+                            System.out.println("Размер отправлен:"+sf);
+                        } 
+                        catch (Exception x) { System.err.println("fileSize"); x.printStackTrace();}
+                        //Данные отправляю
+                        while (sf > 0) {
+                            int i = f_is.read(buffer);
+                            System.out.println(i);
+                            b_os.write(buffer, 0, i);
+                            sf-= i;
+                        }
+                        b_os.flush();
+                        f_is.close();
+                    }
+                    catch (FileNotFoundException ex){}
+                }
+
+                
+        }
+        
+    }
+    
+   // static void receiveFile (Socket socket){    
+        
+       /* try //отправляем заголовок нашего сообщения
+        {
+            OutputStream sout = socket.getOutputStream();            
+            byte[] Hbuffer=new byte[4];
+            Hbuffer="recF".getBytes();
+            sout.write(Hbuffer);         
+        }
+        catch (Exception x) { System.err.println("run"); x.printStackTrace();}
+        */
+       /* try 
+        {
+            InputStream sin = socket.getInputStream(); 
+            //Принимаем имя
+            byte[] Nbuffer = new byte[255];
+            sin.read(Nbuffer);
+            String fileName = new String(Nbuffer,"UTF-8").trim();
+            System.out.println("Имя приняли:"+fileName);
+            //Буферы для файла
+            byte[] buffer = new byte[65536];
+            FileOutputStream f_out = new FileOutputStream("C://YouServerFolder//"+fileName);
+            BufferedInputStream b_is = new BufferedInputStream(socket.getInputStream());              
+            //Принимаем размер
+            long sf;    
+            DataInputStream d_is = new DataInputStream(socket.getInputStream());
+            sf=d_is.readLong();
+            System.out.println("Размер получен:"+sf);
+            //Принимаем файл
+            while (sf > 0) {
+                int i = b_is.read(buffer);
+                f_out.write(buffer, 0, i);
+                sf-= i;
+            }
+            System.out.println("!");
+            //end
+        } catch(Exception x) { x.printStackTrace(); }
+    }
+    static void sendFile (Socket socket) throws IOException{*/
+        
+       /* try //отправляем заголовок нашего сообщения
+        {
+            OutputStream sout = socket.getOutputStream();            
+            byte[] Hbuffer=new byte[4];
+            Hbuffer="senF".getBytes();
+            sout.write(Hbuffer);         
+        }
+        catch (Exception x) { System.err.println("run"); x.printStackTrace();}
+        */
+      /*  try
+        {   
+            OutputStream sout = socket.getOutputStream();
+            String line;
+            line="note.txt";
+            byte[] Nbuffer=new byte[line.length()];
+            Nbuffer=line.getBytes();
+            sout.write(Nbuffer);       
+            System.out.println("Имя отправлено");   
+        }
+        catch (Exception x) {System.err.println("fileName"); x.printStackTrace();}
+
+        try 
+        {
+            byte[] buffer = new byte[65536];//8192 64
+            File f = new File("C://YouServerFolder//note.txt");      
+            FileInputStream f_is = new FileInputStream(f);
+            BufferedOutputStream b_os = new BufferedOutputStream(socket.getOutputStream());                
+            long sf=f.length();
+            //Отправляю размер
+            try 
+            {  
+                DataOutputStream d_os= new DataOutputStream(socket.getOutputStream());
+                d_os.writeLong(sf);
+                System.out.println("Размер отправлен:"+sf);
+            } 
+            catch (Exception x) { System.err.println("fileSize"); x.printStackTrace();}
+            //Данные отправляю
+            while (sf > 0) {
+                int i = f_is.read(buffer);
+                System.out.println(i);
+                b_os.write(buffer, 0, i);
+                sf-= i;
+            }
+            b_os.flush();
+            f_is.close();
+        }
+        catch (FileNotFoundException ex){}
+    }
+    
+    void addC(){
+        try
+        {
+            InputStream sin = socket.getInputStream(); 
+            OutputStream sout = socket.getOutputStream();            
+                        
+            byte[] Nbuffer = new byte[16];
+            sin.read(Nbuffer);
+            String clientName = new String(Nbuffer,"UTF-8").trim();
+            System.out.println("Клиент под именем "+clientName+" подключен");*/
+            
+           /* try //отправляем заголовок нашего сообщения
+            {
+                byte[] Hbuffer=new byte[4];
+                Hbuffer="onlS".getBytes();
+                sout.write(Hbuffer);         
+            }
+            catch (Exception x) { System.err.println("run"); x.printStackTrace();}
+            //отправляем имя
+            byte[] Hbuffer=new byte[16];
+            Hbuffer=clientName.getBytes();
+            sout.write(Hbuffer); */
+       /* }
+        catch(Exception x) { x.printStackTrace(); }
+    }*/
+}
