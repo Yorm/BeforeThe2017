@@ -1,0 +1,49 @@
+﻿Сборка начата 11.12.2015 1:36:35.
+     1>Проект "c:\documents\visual studio 2013\Projects\Pacman\Pacman\Pacman.vcxproj" в узле 2 (целевые объекты Build).
+     1>ClCompile:
+         E:\Visual Studio\VC\bin\CL.exe /c /I"E:\SFML-2.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D SFML_DYNAMIC /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(25): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(105): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(116): warning C4305: =: усечение из "double" к "float"
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(122): warning C4244: инициализация: преобразование "float" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(152): warning C4244: инициализация: преобразование "float" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(153): warning C4244: инициализация: преобразование "float" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(158): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(160): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(189): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(195): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(199): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(200): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(210): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(211): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(250): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(251): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(291): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(292): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(297): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(298): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(321): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(322): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(345): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(399): warning C4305: =: усечение из "double" к "float"
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(424): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(425): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(426): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\animals.h(427): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\main.cpp(73): warning C4244: инициализация: преобразование "sf::Int64" в "float", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\main.cpp(112): warning C4244: инициализация: преобразование "float" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\main.cpp(124): warning C4244: +=: преобразование "float" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\main.cpp(178): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\main.cpp(182): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\main.cpp(187): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\main.cpp(191): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+     1>c:\documents\visual studio 2013\projects\pacman\pacman\main.cpp(224): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+       Link:
+         E:\Visual Studio\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"c:\documents\visual studio 2013\Projects\Pacman\Debug\Pacman.exe" /INCREMENTAL /NOLOGO /LIBPATH:"E:\SFML-2.2\lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib "sfml-graphics-d.lib" "sfml-window-d.lib" "sfml-system-d.lib" "sfml-audio-d.lib" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"c:\documents\visual studio 2013\Projects\Pacman\Debug\Pacman.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"c:\documents\visual studio 2013\Projects\Pacman\Debug\Pacman.lib" /MACHINE:X86 Debug\main.obj
+         Pacman.vcxproj -> c:\documents\visual studio 2013\Projects\Pacman\Debug\Pacman.exe
+     1>Сборка проекта "c:\documents\visual studio 2013\Projects\Pacman\Pacman\Pacman.vcxproj" завершена (целевые объекты Build).
+
+Сборка успешно завершена.
+
+Затраченное время: 00:00:07.59

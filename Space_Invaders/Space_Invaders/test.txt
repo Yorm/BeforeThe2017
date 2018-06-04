@@ -1,0 +1,69 @@
+class bullet{
+public:	
+	struct cell{
+		float x, y;
+		int dir;
+		cell* next;
+	};
+
+	int w, h;
+	float speed;
+	Image image;
+	Texture texture;
+	Sprite sprite;
+	cell* first;
+	/*bullet(int X,int Y,int W,int H){
+		speed = 0.1;
+		cell.dir = 1;
+		image.loadFromFile("pic/spc_inv_tileset.png");
+		texture.loadFromImage(image);
+		sprite.setTexture(texture);
+		cell.x = X; cell.y = Y; cell.w = W; cell.h = H;
+		sprite.setTextureRect(IntRect(0, 89, cell.w, cell.h));
+	}*/
+	int countb=0;
+	bullet(int W, int H){
+		first = NULL;
+		speed = 0.1;
+		w = W;h = H;
+		
+	}
+	void add(int x, int y,int dir){
+		cell* newcell = new cell;
+
+		image.loadFromFile("pic/spc_inv_tileset.png");
+		texture.loadFromImage(image);
+		sprite.setTexture(texture);
+		sprite.setTextureRect(IntRect(0, 89, w, h));
+
+		newcell->x = x;
+		newcell->y = y;
+		newcell->dir = dir;
+		newcell->next = first;
+		first = newcell;
+		countb++;
+		cout << countb<<endl;
+	}
+	void update(float time, RenderWindow& win){
+		if (first == NULL) return;
+		cell* current = first;
+		while (current){
+			switch (current->dir)//смотрим на состояние - назначаем путь
+			{
+			case 1: current->y += -speed*time; break;//вверх
+			case 2: current->y += speed*time; break;//вниз
+			};
+
+			collision(&current->y);
+
+			sprite.setPosition(current->x, current->y);
+			current = current->next;
+			
+			win.draw(sprite);// ахуеть я ебучий маг блять, просто пиздец
+		}
+	}
+
+	void collision(float *y){
+		if (*y < 2) *y = 2;		
+	}
+};
